@@ -13,6 +13,7 @@ public class Users {
     private Long id;
     private String name;
     private Integer roleId;
+    private Integer pointId;
     private Integer organizationId;
 
     public Long getId() {
@@ -46,7 +47,12 @@ public class Users {
     public void setOrganizationId(Integer organizationId) {
         this.organizationId = organizationId;
     }
-    
-    
-    
+
+    public Integer getPointId() {
+        return pointId;
+    }
+
+    public void setPointId(Integer pointId) {
+        this.pointId = pointId;
+    }
 }

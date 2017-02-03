@@ -19,7 +19,6 @@ public class Orders {
     private Long quantity;
     private Long amount;
     private Date orderDate;
-    private String measure;
     private Integer orderItems;
     private Integer type;
 
@@ -71,14 +70,6 @@ public class Orders {
         this.orderDate = orderDate;
     }
 
-    public String getMeasure() {
-        return measure;
-    }
-
-    public void setMeasure(String measure) {
-        this.measure = measure;
-    }
-
     public Integer getOrderItems() {
         return orderItems;
     }
@@ -94,5 +85,4 @@ public class Orders {
     public void setType(Integer type) {
         this.type = type;
     }
-
 }
