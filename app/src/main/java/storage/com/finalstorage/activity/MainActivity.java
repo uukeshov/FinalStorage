@@ -9,23 +9,26 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import storage.com.finalstorage.R;
 import storage.com.finalstorage.service.FirebaseHelper;
@@ -39,9 +42,19 @@ public class MainActivity extends AppCompatActivity
     private FirebaseUser mFirebaseUser;
     private GoogleApiClient mGoogleApiClient;
     private FirebaseHelper firebaseHelper = FirebaseHelper.getInstance();
-    private ListView listView;
     private List<String> ordersList = new ArrayList<>();
+
     ArrayAdapter<String> arrayAdapter;
+
+    /**/
+    static final String TAG = "myLogs";
+    private ScaleAnimation shrinkAnim;
+    private RecyclerView mRecyclerView;
+    private GoogleApiClient client;
+    private ProgressBar pb;
+    private String query;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference mDatabaseReference = database.getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,49 +96,77 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        /*
-        listView = (ListView) findViewById(R.id.MainListView);
-        arrayAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, orderName);
-        listView.setAdapter(arrayAdapter);
-        firebaseHelper.getDataReference().child("Orders").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-              String person = dataSnapshot.getValue(String.class);
-                orderName.add(person);
-                arrayAdapter.notifyDataSetChanged();
-            }
+        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        //scale animation to shrink floating actionbar
+        shrinkAnim = new ScaleAnimation(1.15f, 0f, 1.15f, 0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+        if (mRecyclerView != null) {
+            mRecyclerView.setHasFixedSize(true);
+        }
 
-            }
+       /* mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
+        checkInternetConnection = new CheckInternetConnection();
 
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
+        if (checkInternetConnection.hasConnection(this) == true) {
+            final FirebaseRecyclerAdapter<Store, MovieViewHolder> adapter = new FirebaseRecyclerAdapter<Store, MovieViewHolder>(
+                    Store.class,
+                    R.layout.movie_board_item,
+                    MovieViewHolder.class,
+                    mDatabaseReference.child(Constants.ROOT_PATH).child(Constants.USERID).child("density").child(String.valueOf(getDensitydpi())).child(Constants.STORE_PATH).getRef()
+            ) {
+                @Override
+                protected void populateViewHolder(final MovieViewHolder viewHolder, final Store store, int position) {
+                    Boolean isValid = false;
+                    if (searchType == Constants.SEARCH || query != null) {
+                        isValid = SearchandSpllitter.splitter(store.getStoreTags(), query);
+                    }
 
-            }
+                    if (searchType == Constants.GET_ALL_CATALOGS) {
+                        isValid = true;
+                    }
 
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                    if (searchType == Constants.GET_BY_STORE) {
+                        isValid = storeType == store.getStoreType();
+                    }
 
-            }
+                    if (searchType == Constants.GET_BY_LIKE) {
+                        catalogDB = new CatalogDB(MainActivity.this);
+                        isValid = catalogDB.checkExisten(store.getStoreId());
+                    }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                    if (isValid == true) {
+                        viewHolder.getTvMovieName().setText(store.getMovieName());
+                        Picasso.with(MainActivity.this).load(store.getMoviePoster()).into(viewHolder.getIvMoviePoster());
+                        viewHolder.getIvMoviePoster().setVisibility(View.VISIBLE);
+                        viewHolder.getTvMovieName().setVisibility(View.VISIBLE);
+                        viewHolder.getCard_view().setVisibility(View.VISIBLE);
+                        likeSingltone.addStore(store);
+                        store.setPosition(position);
 
-            }
-        });*/
-
-        /*
-        firebaseHelper.getDataReference();
-        ListAdapter adapter = new FirebaseListAdapter<Orders>(this, Orders.class, android.R.layout.two_line_list_item, firebaseHelper.getDataReference()) {
-            @Override
-            protected void populateView(View v, Orders model, int position) {
-                ((TextView) v.findViewById(android.R.id.text1)).setText(model.getOrderDate().toString());
-            }
-
-            listView.(adapter);
-        */
+                        mRecyclerView.addOnItemTouchListener(
+                                new RecyclerItemClickListener(MainActivity.this, new RecyclerItemClickListener.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(View view, int position) {
+                                        likeSingltone.setPos(position);
+                                        Intent myIntent = new Intent(MainActivity.this, ViewPagerSampleActivity.class);
+                                        myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        MainActivity.this.startActivity(myIntent);
+                                    }
+                                })
+                        );
+                    }
+                    pb.setVisibility(ProgressBar.INVISIBLE);
+                }
+            };
+            mRecyclerView.setAdapter(adapter);
+        }
+        if (checkInternetConnection.hasConnection(this) == false) {
+            Intent myIntent = new Intent(this, OnInternetConnectionFailedActivity.class);
+            myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            this.startActivity(myIntent);
+            finish();
+        }
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();*/
     }
 
     @Override
@@ -184,16 +225,5 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
-    }
-
-    public void map2list(Map<String, Long> map) {
-        ordersList.clear();
-        for (Map.Entry<String, Long> entry : map.entrySet()) {
-
-            Long key = Long.parseLong(entry.getKey());
-            String d = DateFormat.getDateTimeInstance().format(key);
-            Long value = entry.getValue();
-            ordersList.add(d + ": " + value);
-        }
     }
 }

@@ -61,11 +61,10 @@ public class CreateOrderActivity extends AppCompatActivity implements AdapterVie
         ArrayAdapter<String> aa = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, product_category);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spin.setAdapter(aa);
-        spin.setOnItemSelectedListener(this);
-
+        //spin.setOnItemSelectedListener(this);
         priceForOneItem = getPrice();
+        orders = new Orders();
         spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1,
                                        int arg2, long arg3) {
@@ -73,7 +72,6 @@ public class CreateOrderActivity extends AppCompatActivity implements AdapterVie
                 if (spin.getSelectedItemPosition() == 0) {
                     product = vegetables;
                     measureTextView.setText("kg");
-
                 }
 
                 if (spin.getSelectedItemPosition() == 1) {
@@ -104,12 +102,13 @@ public class CreateOrderActivity extends AppCompatActivity implements AdapterVie
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
+        //  orders.setProductId(parent.getSelectedItem().toString());
 
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-        Toast.makeText(this, "Choose Countries :", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Need to select item!", Toast.LENGTH_SHORT).show();
     }
 
     private Integer getPrice() {
@@ -123,15 +122,15 @@ public class CreateOrderActivity extends AppCompatActivity implements AdapterVie
             quantityEditText.setError("Введите количество продукта");
             return;
         } else {
+
             Integer price = Integer.parseInt(quantityEditText.getText().toString()) * priceForOneItem;
             totalPrice.setText(price.toString());
-            orders = new Orders();
             orders.setId(Utils.getGUID());
             orders.setAmount(Long.parseLong(quantityEditText.getText().toString()));
             orders.setOwnerId(firebaseHelper.getAuthUserDisplayName());
-            orders.setProductId(spin2.getSelectedItem().toString());
             orders.setType(spin2.getSelectedItemPosition());
             orders.setOrderItems(1);
+            orders.setProductId(spin2.getSelectedItem().toString());
             orders.setOrderDate(System.currentTimeMillis());
             firebaseHelper.getDataReference().child("Orders").push().setValue(orders);
             Toast.makeText(this, "Заказ успешно создан!", Toast.LENGTH_LONG).show();
