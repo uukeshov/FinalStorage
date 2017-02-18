@@ -115,18 +115,17 @@ public class MainActivity extends AppCompatActivity
                     firebaseHelper.getDataReference().child("Orders").getRef()) {
                 @Override
                 protected void populateViewHolder(final ViewHolder viewHolder, final Orders orders, int position) {
-                    viewHolder.getStorage().setText(orders.getStorage());
-                    viewHolder.getProductName().setText(orders.getProductId());
-                    viewHolder.getCreateDate().setText(orders.getOrderDate().toString());
-                    viewHolder.getStatus().setText(orders.getStatus());
-                    viewHolder.getOrderId().setText(orders.getProductId());
+                    viewHolder.getStorage().setText("Номер склада: " + orders.getStorage().toString());
+                    viewHolder.getProductName().setText("Название продукта: " + orders.getProductId().toString());
+                    viewHolder.getCreateDate().setText("Дата создания заказа: " + orders.getOrderDate().toString());
+                    viewHolder.getStatus().setText("Текущий статус: " + orders.getStatus().toString());
+                    viewHolder.getOrderId().setText("Номер заказа: " + orders.getProductId().toString());
                     viewHolder.getIvOrderImage().setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.cart_1, null));
                     mRecyclerView.addOnItemTouchListener(
                             new RecyclerItemClickListener(MainActivity.this, new RecyclerItemClickListener.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(View view, int position) {
-                                    Intent myIntent = new Intent(MainActivity.this, OrderDetails.class);
-                                    MainActivity.this.startActivity(myIntent);
+                                    startActivity(new Intent(MainActivity.this, OrderDetails.class));
                                 }
                             })
                     );
