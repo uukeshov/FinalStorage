@@ -44,7 +44,7 @@
                             android:layout_height="13dp"
                             android:gravity="center"
                             android:text="Captain America Civil War"
-                            android:textSize="11sp"
+                            android:textSize="14sp"
                             android:textStyle="normal"
                             android:layout_alignParentTop="true"
                             android:layout_alignParentEnd="true"
@@ -56,7 +56,7 @@
                             android:layout_height="13dp"
                             android:gravity="center"
                             android:text="Captain America Civil War"
-                            android:textSize="11sp"
+                            android:textSize="14sp"
                             android:textStyle="normal"
                             android:layout_below="@+id/storageId"
                             android:layout_alignParentEnd="true" />
@@ -67,7 +67,7 @@
                             android:layout_height="13dp"
                             android:gravity="center"
                             android:text="Captain America Civil War"
-                            android:textSize="11sp"
+                            android:textSize="14sp"
                             android:textStyle="normal"
                             android:layout_below="@+id/productname"
                             android:layout_alignParentEnd="true" />
@@ -78,7 +78,7 @@
                         android:layout_height="13dp"
                         android:gravity="center"
                         android:text="Captain America Civil War"
-                        android:textSize="11sp"
+                        android:textSize="14sp"
                         android:textStyle="normal"
                         android:layout_below="@+id/createDate"
                         android:layout_alignParentEnd="true" />
@@ -88,7 +88,7 @@
                         android:layout_height="13dp"
                         android:gravity="center"
                         android:text="Captain America Civil War"
-                        android:textSize="11sp"
+                        android:textSize="14sp"
                         android:textStyle="normal"
                         android:layout_below="@+id/status"
                         android:layout_alignParentEnd="true" />

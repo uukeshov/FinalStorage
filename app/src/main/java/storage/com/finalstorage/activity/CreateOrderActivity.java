@@ -121,9 +121,9 @@ public class CreateOrderActivity extends AppCompatActivity implements AdapterVie
             quantityEditText.setError("Введите количество продукта");
             return;
         } else {
-
             Integer price = Integer.parseInt(quantityEditText.getText().toString()) * priceForOneItem;
             totalPrice.setText(price.toString());
+            orders.setPrice(priceForOneItem);
             orders.setId(String.valueOf(System.currentTimeMillis()));
             orders.setAmount(Long.valueOf(price));
             orders.setOwnerId(firebaseHelper.getAuthUserDisplayName());

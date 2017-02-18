@@ -22,6 +22,15 @@ public class Orders {
     private Integer storage;
     private String status;
     private String measure;
+    private Integer price;
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
 
     public String getMeasure() {
         return measure;
