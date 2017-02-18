@@ -3,6 +3,7 @@ package storage.com.finalstorage.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -19,12 +21,11 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import storage.com.finalstorage.R;
 import storage.com.finalstorage.service.FirebaseHelper;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity
     private GoogleApiClient mGoogleApiClient;
     private FirebaseHelper firebaseHelper = FirebaseHelper.getInstance();
     private ListView listView;
-    private List<String> personList = new ArrayList<>();
+    private List<String> ordersList = new ArrayList<>();
     ArrayAdapter<String> arrayAdapter;
 
     @Override
@@ -65,7 +66,14 @@ public class MainActivity extends AppCompatActivity
                 .addApi(Auth.GOOGLE_SIGN_IN_API)
                 .build();
 
-
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent it = new Intent(MainActivity.this, CreateOrderActivity.class);
+                startActivity(it);
+            }
+        });
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -75,16 +83,16 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        /**/
+        /*
         listView = (ListView) findViewById(R.id.MainListView);
-        arrayAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, personList);
+        arrayAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, orderName);
         listView.setAdapter(arrayAdapter);
-        firebaseHelper.getDataReference().addChildEventListener(new ChildEventListener() {
+        firebaseHelper.getDataReference().child("Orders").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-              /*  String person = dataSnapshot.getValue(String.class);
-                personList.add(person);
-                arrayAdapter.notifyDataSetChanged();*/
+              String person = dataSnapshot.getValue(String.class);
+                orderName.add(person);
+                arrayAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -106,7 +114,18 @@ public class MainActivity extends AppCompatActivity
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        });*/
+
+        /*
+        firebaseHelper.getDataReference();
+        ListAdapter adapter = new FirebaseListAdapter<Orders>(this, Orders.class, android.R.layout.two_line_list_item, firebaseHelper.getDataReference()) {
+            @Override
+            protected void populateView(View v, Orders model, int position) {
+                ((TextView) v.findViewById(android.R.id.text1)).setText(model.getOrderDate().toString());
+            }
+
+            listView.(adapter);
+        */
     }
 
     @Override
@@ -165,5 +184,16 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    public void map2list(Map<String, Long> map) {
+        ordersList.clear();
+        for (Map.Entry<String, Long> entry : map.entrySet()) {
+
+            Long key = Long.parseLong(entry.getKey());
+            String d = DateFormat.getDateTimeInstance().format(key);
+            Long value = entry.getValue();
+            ordersList.add(d + ": " + value);
+        }
     }
 }
