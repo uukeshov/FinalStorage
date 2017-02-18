@@ -21,7 +21,6 @@ import storage.com.finalstorage.R;
 import storage.com.finalstorage.model.Orders;
 import storage.com.finalstorage.model.ProductCategories;
 import storage.com.finalstorage.service.FirebaseHelper;
-import storage.com.finalstorage.utils.Utils;
 
 public class CreateOrderActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -125,13 +124,14 @@ public class CreateOrderActivity extends AppCompatActivity implements AdapterVie
 
             Integer price = Integer.parseInt(quantityEditText.getText().toString()) * priceForOneItem;
             totalPrice.setText(price.toString());
-            orders.setId(Utils.getGUID());
-            orders.setAmount(Long.parseLong(quantityEditText.getText().toString()));
+            orders.setId(String.valueOf(System.currentTimeMillis()));
+            orders.setAmount(Long.valueOf(price));
             orders.setOwnerId(firebaseHelper.getAuthUserDisplayName());
             orders.setType(spin2.getSelectedItemPosition());
             orders.setOrderItems(1);
             orders.setProductId(spin2.getSelectedItem().toString());
             orders.setOrderDate(System.currentTimeMillis());
+            orders.setQuantity(Long.parseLong(quantityEditText.getText().toString()));
             firebaseHelper.getDataReference().child("Orders").push().setValue(orders);
             Toast.makeText(this, "Заказ успешно создан!", Toast.LENGTH_LONG).show();
             finish();

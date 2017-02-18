@@ -5,20 +5,23 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
-import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -27,11 +30,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import storage.com.finalstorage.R;
+import storage.com.finalstorage.adapters.RecyclerItemClickListener;
+import storage.com.finalstorage.model.Orders;
+import storage.com.finalstorage.service.CheckInternetConnection;
 import storage.com.finalstorage.service.FirebaseHelper;
+import storage.com.finalstorage.viewholder.ViewHolder;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
@@ -41,18 +45,13 @@ public class MainActivity extends AppCompatActivity
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private GoogleApiClient mGoogleApiClient;
-    private FirebaseHelper firebaseHelper = FirebaseHelper.getInstance();
-    private List<String> ordersList = new ArrayList<>();
-
-    ArrayAdapter<String> arrayAdapter;
-
-    /**/
+    private CheckInternetConnection checkInternetConnection;
     static final String TAG = "myLogs";
     private ScaleAnimation shrinkAnim;
     private RecyclerView mRecyclerView;
     private GoogleApiClient client;
     private ProgressBar pb;
-    private String query;
+    FirebaseHelper firebaseHelper = FirebaseHelper.getInstance();
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference mDatabaseReference = database.getReference();
 
@@ -97,6 +96,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
         //scale animation to shrink floating actionbar
         shrinkAnim = new ScaleAnimation(1.15f, 0f, 1.15f, 0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 
@@ -104,69 +104,41 @@ public class MainActivity extends AppCompatActivity
             mRecyclerView.setHasFixedSize(true);
         }
 
-       /* mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
+        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
         checkInternetConnection = new CheckInternetConnection();
 
         if (checkInternetConnection.hasConnection(this) == true) {
-            final FirebaseRecyclerAdapter<Store, MovieViewHolder> adapter = new FirebaseRecyclerAdapter<Store, MovieViewHolder>(
-                    Store.class,
-                    R.layout.movie_board_item,
-                    MovieViewHolder.class,
-                    mDatabaseReference.child(Constants.ROOT_PATH).child(Constants.USERID).child("density").child(String.valueOf(getDensitydpi())).child(Constants.STORE_PATH).getRef()
-            ) {
+            final FirebaseRecyclerAdapter<Orders, ViewHolder> adapter = new FirebaseRecyclerAdapter<Orders, ViewHolder>(
+                    Orders.class,
+                    R.layout.orders_board_item,
+                    ViewHolder.class,
+                    firebaseHelper.getDataReference().child("Orders").getRef()) {
                 @Override
-                protected void populateViewHolder(final MovieViewHolder viewHolder, final Store store, int position) {
-                    Boolean isValid = false;
-                    if (searchType == Constants.SEARCH || query != null) {
-                        isValid = SearchandSpllitter.splitter(store.getStoreTags(), query);
-                    }
-
-                    if (searchType == Constants.GET_ALL_CATALOGS) {
-                        isValid = true;
-                    }
-
-                    if (searchType == Constants.GET_BY_STORE) {
-                        isValid = storeType == store.getStoreType();
-                    }
-
-                    if (searchType == Constants.GET_BY_LIKE) {
-                        catalogDB = new CatalogDB(MainActivity.this);
-                        isValid = catalogDB.checkExisten(store.getStoreId());
-                    }
-
-                    if (isValid == true) {
-                        viewHolder.getTvMovieName().setText(store.getMovieName());
-                        Picasso.with(MainActivity.this).load(store.getMoviePoster()).into(viewHolder.getIvMoviePoster());
-                        viewHolder.getIvMoviePoster().setVisibility(View.VISIBLE);
-                        viewHolder.getTvMovieName().setVisibility(View.VISIBLE);
-                        viewHolder.getCard_view().setVisibility(View.VISIBLE);
-                        likeSingltone.addStore(store);
-                        store.setPosition(position);
-
-                        mRecyclerView.addOnItemTouchListener(
-                                new RecyclerItemClickListener(MainActivity.this, new RecyclerItemClickListener.OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(View view, int position) {
-                                        likeSingltone.setPos(position);
-                                        Intent myIntent = new Intent(MainActivity.this, ViewPagerSampleActivity.class);
-                                        myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        MainActivity.this.startActivity(myIntent);
-                                    }
-                                })
-                        );
-                    }
-                    pb.setVisibility(ProgressBar.INVISIBLE);
+                protected void populateViewHolder(final ViewHolder viewHolder, final Orders orders, int position) {
+                    viewHolder.getOrderProductName().setText(orders.getProductId());
+                    viewHolder.getIvOrderImage().setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.cart_1, null));
+                    mRecyclerView.addOnItemTouchListener(
+                            new RecyclerItemClickListener(MainActivity.this, new RecyclerItemClickListener.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(View view, int position) {
+                                    Intent myIntent = new Intent(MainActivity.this, OrderDetails.class);
+                                    MainActivity.this.startActivity(myIntent);
+                                }
+                            })
+                    );
                 }
             };
             mRecyclerView.setAdapter(adapter);
-        }
-        if (checkInternetConnection.hasConnection(this) == false) {
+        } else {
             Intent myIntent = new Intent(this, OnInternetConnectionFailedActivity.class);
             myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             this.startActivity(myIntent);
             finish();
         }
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();*/
+
+        client = new GoogleApiClient.Builder(this).
+                addApi(AppIndex.API)
+                .build();
     }
 
     @Override

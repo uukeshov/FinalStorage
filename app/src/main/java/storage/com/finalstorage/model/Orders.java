@@ -19,6 +19,7 @@ public class Orders {
     private Long orderDate;
     private Integer orderItems;
     private Integer type;
+    private String status;
 
     public String getId() {
         return id;
