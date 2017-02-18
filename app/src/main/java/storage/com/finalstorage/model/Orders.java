@@ -11,20 +11,20 @@ package storage.com.finalstorage.model;
  */
 public class Orders {
 
-    private Integer id;
+    private String id;
     private String ownerId;
-    private Integer productId;
+    private String productId;
     private Long quantity;
     private Long amount;
     private Long orderDate;
     private Integer orderItems;
     private Integer type;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -36,11 +36,11 @@ public class Orders {
         this.ownerId = ownerId;
     }
 
-    public Integer getProductId() {
+    public String getProductId() {
         return productId;
     }
 
-    public void setProductId(Integer productId) {
+    public void setProductId(String productId) {
         this.productId = productId;
     }
 
