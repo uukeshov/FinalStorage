@@ -82,12 +82,6 @@ public class CreateOrderActivity extends AppCompatActivity implements AdapterVie
                     product = meat;
                     measureTextView.setText("kg");
                 }
-
-                spin2 = (Spinner) findViewById(R.id.spinner_product);
-                ArrayAdapter<String> bb = new ArrayAdapter<String>(CreateOrderActivity.this, android.R.layout.simple_spinner_item, product);
-                bb.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spin2.setAdapter(bb);
-                spin2.setOnItemSelectedListener(this);
             }
 
             @Override
@@ -96,6 +90,12 @@ public class CreateOrderActivity extends AppCompatActivity implements AdapterVie
             }
 
         });
+
+        spin2 = (Spinner) findViewById(R.id.spinner_product);
+        ArrayAdapter<String> bb = new ArrayAdapter<String>(CreateOrderActivity.this, android.R.layout.simple_spinner_item, product);
+        bb.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spin2.setAdapter(bb);
+        spin2.setOnItemSelectedListener(this);
         priceTextView.setText(priceForOneItem.toString());
     }
 
