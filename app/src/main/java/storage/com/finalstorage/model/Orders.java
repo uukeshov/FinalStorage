@@ -5,8 +5,6 @@
  */
 package storage.com.finalstorage.model;
 
-import java.util.Date;
-
 /**
  *
  * @author urmat.ukeshov
@@ -18,7 +16,7 @@ public class Orders {
     private Integer productId;
     private Long quantity;
     private Long amount;
-    private Date orderDate;
+    private Long orderDate;
     private Integer orderItems;
     private Integer type;
 
@@ -62,11 +60,11 @@ public class Orders {
         this.amount = amount;
     }
 
-    public Date getOrderDate() {
+    public Long getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(Long orderDate) {
         this.orderDate = orderDate;
     }
 
