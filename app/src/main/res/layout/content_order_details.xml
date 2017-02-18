@@ -5,12 +5,170 @@
     android:id="@+id/content_order_details"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="storage.com.finalstorage.activity.OrderDetails"
     tools:showIn="@layout/activity_order_details">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/createDate"
+            android:layout_weight="0.04"
+            android:gravity="left"
+            android:paddingBottom="1dp"
+            android:paddingTop="1dp"
+            android:text="Captain America Civil War"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/ownerId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/createDate"
+            android:layout_weight="0.04"
+            android:gravity="left"
+            android:paddingBottom="1dp"
+            android:paddingTop="1dp"
+            android:text="Captain America Civil War"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/productId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/createDate"
+            android:layout_weight="0.04"
+            android:gravity="left"
+            android:paddingBottom="1dp"
+            android:paddingTop="1dp"
+            android:text="Captain America Civil War"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/quantity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/createDate"
+            android:layout_weight="0.04"
+            android:gravity="left"
+            android:paddingBottom="1dp"
+            android:paddingTop="1dp"
+            android:text="Captain America Civil War"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/createDate"
+            android:layout_weight="0.04"
+            android:gravity="left"
+            android:paddingBottom="1dp"
+            android:paddingTop="1dp"
+            android:text="Captain America Civil War"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/orderDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/createDate"
+            android:layout_weight="0.04"
+            android:gravity="left"
+            android:paddingBottom="1dp"
+            android:paddingTop="1dp"
+            android:text="Captain America Civil War"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/orderItems"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/createDate"
+            android:layout_weight="0.04"
+            android:gravity="left"
+            android:paddingBottom="1dp"
+            android:paddingTop="1dp"
+            android:text="Captain America Civil War"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/storage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/createDate"
+            android:layout_weight="0.04"
+            android:gravity="left"
+            android:paddingBottom="1dp"
+            android:paddingTop="1dp"
+            android:text="Captain America Civil War"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/createDate"
+            android:layout_weight="0.04"
+            android:gravity="left"
+            android:paddingBottom="1dp"
+            android:paddingTop="1dp"
+            android:text="Captain America Civil War"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/measure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/createDate"
+            android:layout_weight="0.04"
+            android:gravity="left"
+            android:paddingBottom="1dp"
+            android:paddingTop="1dp"
+            android:text="Captain America Civil War"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/createDate"
+            android:layout_weight="0.04"
+            android:gravity="left"
+            android:paddingBottom="1dp"
+            android:paddingTop="1dp"
+            android:text="Captain America Civil War"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 </RelativeLayout>

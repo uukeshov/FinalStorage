@@ -29,6 +29,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import storage.com.finalstorage.R;
 import storage.com.finalstorage.adapters.RecyclerItemClickListener;
@@ -39,7 +44,7 @@ import storage.com.finalstorage.utils.Utils;
 import storage.com.finalstorage.viewholder.ViewHolder;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener, Serializable {
 
     private String mUsername;
     private String mPhotoUrl;
@@ -52,6 +57,7 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView mRecyclerView;
     private GoogleApiClient client;
     private ProgressBar pb;
+    private List<Orders> ordersList = new ArrayList<>();
     private FirebaseHelper firebaseHelper = FirebaseHelper.getInstance();
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference mDatabaseReference = database.getReference();
@@ -123,11 +129,15 @@ public class MainActivity extends AppCompatActivity
                     viewHolder.getStatus().setText("Текущий статус: " + orders.getStatus().toString());
                     viewHolder.getOrderId().setText("Номер заказа: " + orders.getId().toString());
                     viewHolder.getIvOrderImage().setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.cart_1, null));
+                    ordersList.add(orders);
                     mRecyclerView.addOnItemTouchListener(
                             new RecyclerItemClickListener(MainActivity.this, new RecyclerItemClickListener.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(View view, int position) {
-                                    startActivity(new Intent(MainActivity.this, OrderDetails.class));
+                                    Intent intent = new Intent(getBaseContext(), OrderDetails.class);
+                                    Gson gson = new Gson();
+                                    intent.putExtra("OrderList", gson.toJson(ordersList.get(position)));
+                                    startActivity(intent);
                                 }
                             })
                     );
