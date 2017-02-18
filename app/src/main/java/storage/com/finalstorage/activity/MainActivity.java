@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity
                     viewHolder.getProductName().setText("Название продукта: " + orders.getProductId().toString());
                     viewHolder.getCreateDate().setText("Дата создания заказа: " + Utils.getDate(orders.getOrderDate(), "dd/MM/yyyy hh:mm:ss.SSS"));
                     viewHolder.getStatus().setText("Текущий статус: " + orders.getStatus().toString());
-                    viewHolder.getOrderId().setText("Номер заказа: " + orders.getProductId().toString());
+                    viewHolder.getOrderId().setText("Номер заказа: " + orders.getId().toString());
                     viewHolder.getIvOrderImage().setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.cart_1, null));
                     mRecyclerView.addOnItemTouchListener(
                             new RecyclerItemClickListener(MainActivity.this, new RecyclerItemClickListener.OnItemClickListener() {
