@@ -14,17 +14,62 @@ import storage.com.finalstorage.R;
 
 public class ViewHolder extends RecyclerView.ViewHolder {
 
-    TextView orderProductName;
+    TextView storage;
+    TextView productName;
+    TextView createDate;
+    TextView status;
+    TextView orderId;
     ImageView ivOrderImage;
     CardView cv;
 
 
-    public TextView getOrderProductName() {
-        return orderProductName;
+
+    public TextView getStorage() {
+        return storage;
     }
 
-    public void setOrderProductName(TextView orderProductName) {
-        this.orderProductName = orderProductName;
+    public void setStorage(TextView storage) {
+        this.storage = storage;
+    }
+
+    public TextView getProductName() {
+        return productName;
+    }
+
+    public void setProductName(TextView productName) {
+        this.productName = productName;
+    }
+
+    public TextView getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(TextView createDate) {
+        this.createDate = createDate;
+    }
+
+    public TextView getStatus() {
+        return status;
+    }
+
+    public void setStatus(TextView status) {
+        this.status = status;
+    }
+
+    public TextView getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(TextView orderId) {
+        this.orderId = orderId;
+    }
+
+    public CardView getCv() {
+        return cv;
+    }
+
+    public void setCv(CardView cv) {
+        this.cv = cv;
     }
 
     public ImageView getIvOrderImage() {
@@ -38,7 +83,11 @@ public class ViewHolder extends RecyclerView.ViewHolder {
     public ViewHolder(View v) {
         super(v);
         cv = (CardView)itemView.findViewById(R.id.card_view);
-        orderProductName = (TextView) v.findViewById(R.id.orderProductName);
+        storage = (TextView) v.findViewById(R.id.storageId);
+        productName = (TextView) v.findViewById(R.id.productname);
+        createDate = (TextView) v.findViewById(R.id.createDate);
+        status = (TextView) v.findViewById(R.id.status);
+        orderId = (TextView) v.findViewById(R.id.orderId);
         ivOrderImage = (ImageView) v.findViewById(R.id.iv_order_poster);
     }
 }

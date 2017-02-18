@@ -132,6 +132,9 @@ public class CreateOrderActivity extends AppCompatActivity implements AdapterVie
             orders.setProductId(spin2.getSelectedItem().toString());
             orders.setOrderDate(System.currentTimeMillis());
             orders.setQuantity(Long.parseLong(quantityEditText.getText().toString()));
+            orders.setStorage(1);
+            orders.setStatus("Created");
+            orders.setMeasure(measureTextView.toString());
             firebaseHelper.getDataReference().child("Orders").push().setValue(orders);
             Toast.makeText(this, "Заказ успешно создан!", Toast.LENGTH_LONG).show();
             finish();

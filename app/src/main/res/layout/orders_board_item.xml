@@ -31,45 +31,67 @@
 
                         <ImageView
                             android:id="@+id/iv_order_poster"
-                            android:layout_width="11dp"
-                            android:layout_height="2dp"
+                            android:layout_width="1dp"
+                            android:layout_height="1dp"
                             android:scaleType="centerCrop"
                             app:srcCompat="@drawable/cart_1"
                             android:layout_alignParentTop="true"
                             android:layout_alignParentStart="true" />
 
                         <TextView
-                            android:id="@+id/textView2"
+                            android:id="@+id/storageId"
                             android:layout_width="wrap_content"
-                            android:layout_height="30dp"
+                            android:layout_height="13dp"
                             android:gravity="center"
                             android:text="Captain America Civil War"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
+                            android:textSize="11sp"
+                            android:textStyle="normal"
                             android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_below="@+id/iv_order_poster"/>
+
+                        <TextView
+                            android:id="@+id/productname"
+                            android:layout_width="wrap_content"
+                            android:layout_height="13dp"
+                            android:gravity="center"
+                            android:text="Captain America Civil War"
+                            android:textSize="11sp"
+                            android:textStyle="normal"
+                            android:layout_below="@+id/storageId"
                             android:layout_alignParentEnd="true" />
 
                         <TextView
-                            android:id="@+id/textView3"
+                            android:id="@+id/createDate"
                             android:layout_width="wrap_content"
-                            android:layout_height="30dp"
+                            android:layout_height="13dp"
                             android:gravity="center"
                             android:text="Captain America Civil War"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            android:layout_below="@+id/orderProductName"
+                            android:textSize="11sp"
+                            android:textStyle="normal"
+                            android:layout_below="@+id/productname"
                             android:layout_alignParentEnd="true" />
 
-                        <TextView
-                            android:id="@+id/orderProductName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="30dp"
-                            android:gravity="center"
-                            android:text="Captain America Civil War"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            android:layout_below="@+id/iv_order_poster"
-                            android:layout_alignParentEnd="true" />
+                    <TextView
+                        android:id="@+id/status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="13dp"
+                        android:gravity="center"
+                        android:text="Captain America Civil War"
+                        android:textSize="11sp"
+                        android:textStyle="normal"
+                        android:layout_below="@+id/createDate"
+                        android:layout_alignParentEnd="true" />
+                    <TextView
+                        android:id="@+id/orderId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="13dp"
+                        android:gravity="center"
+                        android:text="Captain America Civil War"
+                        android:textSize="11sp"
+                        android:textStyle="normal"
+                        android:layout_below="@+id/status"
+                        android:layout_alignParentEnd="true" />
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>

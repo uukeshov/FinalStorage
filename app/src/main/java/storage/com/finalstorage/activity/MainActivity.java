@@ -115,7 +115,11 @@ public class MainActivity extends AppCompatActivity
                     firebaseHelper.getDataReference().child("Orders").getRef()) {
                 @Override
                 protected void populateViewHolder(final ViewHolder viewHolder, final Orders orders, int position) {
-                    viewHolder.getOrderProductName().setText(orders.getProductId());
+                    viewHolder.getStorage().setText(orders.getStorage());
+                    viewHolder.getProductName().setText(orders.getProductId());
+                    viewHolder.getCreateDate().setText(orders.getOrderDate().toString());
+                    viewHolder.getStatus().setText(orders.getStatus());
+                    viewHolder.getOrderId().setText(orders.getProductId());
                     viewHolder.getIvOrderImage().setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.cart_1, null));
                     mRecyclerView.addOnItemTouchListener(
                             new RecyclerItemClickListener(MainActivity.this, new RecyclerItemClickListener.OnItemClickListener() {
