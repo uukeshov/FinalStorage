@@ -52,9 +52,10 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView mRecyclerView;
     private GoogleApiClient client;
     private ProgressBar pb;
-    FirebaseHelper firebaseHelper = FirebaseHelper.getInstance();
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference mDatabaseReference = database.getReference();
+    private FirebaseHelper firebaseHelper = FirebaseHelper.getInstance();
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference mDatabaseReference = database.getReference();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
