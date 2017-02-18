@@ -35,6 +35,7 @@ import storage.com.finalstorage.adapters.RecyclerItemClickListener;
 import storage.com.finalstorage.model.Orders;
 import storage.com.finalstorage.service.CheckInternetConnection;
 import storage.com.finalstorage.service.FirebaseHelper;
+import storage.com.finalstorage.utils.Utils;
 import storage.com.finalstorage.viewholder.ViewHolder;
 
 public class MainActivity extends AppCompatActivity
@@ -117,7 +118,7 @@ public class MainActivity extends AppCompatActivity
                 protected void populateViewHolder(final ViewHolder viewHolder, final Orders orders, int position) {
                     viewHolder.getStorage().setText("Номер склада: " + orders.getStorage().toString());
                     viewHolder.getProductName().setText("Название продукта: " + orders.getProductId().toString());
-                    viewHolder.getCreateDate().setText("Дата создания заказа: " + orders.getOrderDate().toString());
+                    viewHolder.getCreateDate().setText("Дата создания заказа: " + Utils.getDate(orders.getOrderDate(), "dd/MM/yyyy hh:mm:ss.SSS"));
                     viewHolder.getStatus().setText("Текущий статус: " + orders.getStatus().toString());
                     viewHolder.getOrderId().setText("Номер заказа: " + orders.getProductId().toString());
                     viewHolder.getIvOrderImage().setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.cart_1, null));
