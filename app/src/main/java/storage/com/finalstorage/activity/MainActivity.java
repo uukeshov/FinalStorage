@@ -21,7 +21,6 @@ import android.view.animation.ScaleAnimation;
 import android.widget.ProgressBar;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -113,47 +112,35 @@ public class MainActivity extends AppCompatActivity
         }
 
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
-        checkInternetConnection = new CheckInternetConnection();
-
-        if (checkInternetConnection.hasConnection(this) == true) {
-            final FirebaseRecyclerAdapter<Orders, ViewHolder> adapter = new FirebaseRecyclerAdapter<Orders, ViewHolder>(
-                    Orders.class,
-                    R.layout.orders_board_item,
-                    ViewHolder.class,
-                    firebaseHelper.getDataReference().child("Orders").getRef()) {
-                @Override
-                protected void populateViewHolder(final ViewHolder viewHolder, final Orders orders, int position) {
-                    viewHolder.getStorage().setText("Номер склада: " + orders.getStorage().toString());
-                    viewHolder.getProductName().setText("Название продукта: " + orders.getProductId().toString());
-                    viewHolder.getCreateDate().setText("Дата создания заказа: " + Utils.getDate(orders.getOrderDate(), "dd/MM/yyyy hh:mm:ss.SSS"));
-                    viewHolder.getStatus().setText("Текущий статус: " + orders.getStatus().toString());
-                    viewHolder.getOrderId().setText("Номер заказа: " + orders.getId().toString());
-                    viewHolder.getIvOrderImage().setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.cart_1, null));
-                    ordersList.add(orders);
-                    mRecyclerView.addOnItemTouchListener(
-                            new RecyclerItemClickListener(MainActivity.this, new RecyclerItemClickListener.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(View view, int position) {
-                                    Intent intent = new Intent(getBaseContext(), OrderDetails.class);
-                                    Gson gson = new Gson();
-                                    intent.putExtra("OrderList", gson.toJson(ordersList.get(position)));
-                                    startActivity(intent);
-                                }
-                            })
-                    );
-                }
-            };
-            mRecyclerView.setAdapter(adapter);
-        } else {
-            Intent myIntent = new Intent(this, OnInternetConnectionFailedActivity.class);
-            myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            this.startActivity(myIntent);
-            finish();
-        }
-
-        client = new GoogleApiClient.Builder(this).
-                addApi(AppIndex.API)
-                .build();
+        final FirebaseRecyclerAdapter<Orders, ViewHolder> adapter = new FirebaseRecyclerAdapter<Orders, ViewHolder>(
+                Orders.class,
+                R.layout.orders_board_item,
+                ViewHolder.class,
+                firebaseHelper.getDataReference().child("Orders").getRef()) {
+            @Override
+            protected void populateViewHolder(final ViewHolder viewHolder, final Orders orders, int position) {
+                viewHolder.getStorage().setText("Номер склада: " + orders.getStorage().toString());
+                viewHolder.getProductName().setText("Название продукта: " + orders.getProductId().toString());
+                viewHolder.getCreateDate().setText("Дата создания заказа: " + Utils.getDate(orders.getOrderDate(), "dd/MM/yyyy hh:mm"));
+                viewHolder.getStatus().setText("Текущий статус: " + orders.getStatus().toString());
+                viewHolder.getOrderId().setText("Номер заказа: " + orders.getId().toString());
+                viewHolder.getIvOrderImage().setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.cart_1, null));
+                ordersList.add(orders);
+                mRecyclerView.addOnItemTouchListener(
+                        new RecyclerItemClickListener(MainActivity.this, new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+                                Intent myIntent = new Intent(MainActivity.this, OrderDetails.class);
+                                myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                Gson gson = new Gson();
+                                myIntent.putExtra("OrderList", gson.toJson(ordersList.get(position)));
+                                MainActivity.this.startActivity(myIntent);
+                            }
+                        })
+                );
+            }
+        };
+        mRecyclerView.setAdapter(adapter);
     }
 
     @Override

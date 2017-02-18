@@ -57,8 +57,8 @@ public class OrderDetails extends AppCompatActivity {
         productId.setText("Название продукта: " + orders.getProductId());
         quantity.setText("Количество: " + orders.getQuantity().toString());
         amount.setText("Общая цена: " + orders.getAmount().toString());
-        orderDate.setText("Дата создания заказа: " + Utils.getDate(orders.getOrderDate(), "dd/MM/yyyy hh:mm:ss.SSS"));
-        orderItems.setText("Полt проpапас: " + orders.getOrderItems());
+        orderDate.setText("Дата создания заказа: " + Utils.getDate(orders.getOrderDate(), "dd/MM/yyyy hh:mm:ss"));
+      //  orderItems.setText("Полt проpапас: " + orders.getOrderItems());
         storage.setText("Склад: " + orders.getStorage());
         status.setText("Статус: " + orders.getStatus());
         measure.setText("Единица измерения: " + orders.getMeasure());
@@ -68,7 +68,10 @@ public class OrderDetails extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        Intent myIntent = new Intent(OrderDetails.this, MainActivity.class);
+        myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        OrderDetails.this.startActivity(myIntent);
         finish();
     }
-
 }
