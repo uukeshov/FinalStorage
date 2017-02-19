@@ -26,40 +26,33 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import storage.com.finalstorage.R;
 import storage.com.finalstorage.adapters.RecyclerItemClickListener;
 import storage.com.finalstorage.model.Orders;
-import storage.com.finalstorage.service.CheckInternetConnection;
 import storage.com.finalstorage.service.FirebaseHelper;
 import storage.com.finalstorage.utils.Utils;
 import storage.com.finalstorage.viewholder.ViewHolder;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener, Serializable {
+        implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
 
     private String mUsername;
-    private String mPhotoUrl;
+    //private String mPhotoUrl;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private GoogleApiClient mGoogleApiClient;
-    private CheckInternetConnection checkInternetConnection;
+    //private CheckInternetConnection checkInternetConnection;
     static final String TAG = "myLogs";
     private ScaleAnimation shrinkAnim;
     private RecyclerView mRecyclerView;
-    private GoogleApiClient client;
     private ProgressBar pb;
     private List<Orders> ordersList = new ArrayList<>();
     private FirebaseHelper firebaseHelper = FirebaseHelper.getInstance();
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference mDatabaseReference = database.getReference();
 
 
     @Override
@@ -77,7 +70,7 @@ public class MainActivity extends AppCompatActivity
             return;
         } else {
             mUsername = mFirebaseUser.getDisplayName();
-            mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
+          //  mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
         }
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -104,7 +97,6 @@ public class MainActivity extends AppCompatActivity
 
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         mRecyclerView.setHasFixedSize(true);
-        //scale animation to shrink floating actionbar
         shrinkAnim = new ScaleAnimation(1.15f, 0f, 1.15f, 0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 
         if (mRecyclerView != null) {

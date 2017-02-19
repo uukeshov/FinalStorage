@@ -13,6 +13,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -51,6 +55,8 @@ public class CreateOrderActivity extends AppCompatActivity implements AdapterVie
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        populateSpinner1();
+
         buttonSave = (Button) findViewById(R.id.CreateOrderButton);
         priceTextView = (TextView) findViewById(R.id.priceTextView);
         totalPrice = (TextView) findViewById(R.id.TotalPrice);
@@ -60,7 +66,6 @@ public class CreateOrderActivity extends AppCompatActivity implements AdapterVie
         ArrayAdapter<String> aa = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, product_category);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spin.setAdapter(aa);
-        //spin.setOnItemSelectedListener(this);
         priceForOneItem = getPrice();
         orders = new Orders();
         spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -101,7 +106,6 @@ public class CreateOrderActivity extends AppCompatActivity implements AdapterVie
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
-        //  orders.setProductId(parent.getSelectedItem().toString());
 
     }
 
@@ -140,22 +144,23 @@ public class CreateOrderActivity extends AppCompatActivity implements AdapterVie
             finish();
         }
     }
-    /*private void populateSpinner1() {
+
+    private void populateSpinner1() {
         firebaseHelper.getDataReference().child("ProductCategories").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                productCategories = new ProductCategories();
+
                 for (DataSnapshot areaSnapshot : dataSnapshot.getChildren()) {
+                    productCategories = new ProductCategories();
                     productCategories.setId(Long.valueOf(areaSnapshot.child("id").getValue(Integer.class)));
                     productCategories.setName(areaSnapshot.child("name").getValue(String.class));
-//                    productCategories.setParentId(Long.valueOf(areaSnapshot.child("parentId").getValue(Integer.class)));
                     categoriesList.add(productCategories);
                 }
-
-                spin = (Spinner) findViewById(R.id.spinner_product_category);
+                System.out.println(categoriesList.toString());
+                /*spin = (Spinner) findViewById(R.id.spinner_product_category);
                 ArrayAdapter<ProductCategories> areasAdapter = new ArrayAdapter<ProductCategories>(CreateOrderActivity.this, android.R.layout.simple_spinner_item, categoriesList);
                 areasAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spin.setAdapter(areasAdapter);
+                spin.setAdapter(areasAdapter);*/
             }
 
             @Override
@@ -163,5 +168,5 @@ public class CreateOrderActivity extends AppCompatActivity implements AdapterVie
 
             }
         });
-    }*/
+    }
 }
